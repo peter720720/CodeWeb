@@ -14,7 +14,8 @@ function Enroll({ courses }) {
     setStatus('submitting');
 
     try {
-      const response = await fetch('http://localhost:3500/api/auth/register', {
+      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3500';
+      const response = await fetch(`${API_BASE}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, selectedCourse: form.course })

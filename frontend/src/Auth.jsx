@@ -22,7 +22,8 @@ function Auth({ courses }) {
       : { email: form.email, password: form.password };
 
     try {
-      const response = await fetch(`http://localhost:3500${route}`, {
+      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3500';
+      const response = await fetch(`${API_BASE}${route}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
