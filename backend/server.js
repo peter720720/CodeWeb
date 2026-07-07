@@ -42,7 +42,9 @@ const transporter = nodemailer.createTransport({
 });
 
 // Middleware Configuration
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+// Allow frontend origin to be configured via environment for deployments (Render, Vercel, etc.)
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
+app.use(cors({ origin: FRONTEND_URL, credentials: true }));
 app.use(express.json());
 
 // ==========================================
@@ -252,6 +254,11 @@ app.post('/api/auth/login', async (req, res) => {
     res.status(500).json({ message: 'Internal server login error.' });
   }
 });
+
+  // Health check endpoint for deployment verification
+  app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok', uptime: process.uptime(), env: process.env.NODE_ENV || 'production' });
+  });
 
 app.listen(PORT, () => {
   console.log(`🚀 CodeWeb Backend running on: http://localhost:${PORT}`);
