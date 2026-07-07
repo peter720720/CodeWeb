@@ -3,7 +3,15 @@ import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
-import { Resend } from 'resend';
+let Resend;
+try {
+  // `resend` may not be installed in some environments — load conditionally
+  // to avoid crashing `npm install` or runtime when unavailable.
+  // eslint-disable-next-line import/no-extraneous-dependencies
+  Resend = (await import('resend')).Resend;
+} catch (err) {
+  Resend = null;
+}
 import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -29,8 +37,8 @@ const NODEMAILER_PASSWORD = process.env.NODEMAILER_PASSWORD || 'iktg agtu kpxd w
 
 const app = express();
 
-// Initialize Resend Primary Email Engine
-const resend = new Resend(RESEND_API_KEY);
+// Initialize Resend Primary Email Engine (if available)
+const resend = Resend && RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
 // Configure Nodemailer Gmail Transport (Secondary Fallback Engine)
 const transporter = nodemailer.createTransport({
