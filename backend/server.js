@@ -1,7 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 let Resend;
 try {
@@ -125,6 +123,13 @@ async function seedAdminUser() {
       
       console.log('👑 Admin user successfully seeded into database!');
     } else {
+
+// Mount API routes
+import authRoutes from './routes/authRoutes.js';
+import coursesRoutes from './routes/coursesRoutes.js';
+
+app.use('/api/auth', authRoutes);
+app.use('/api/courses', coursesRoutes);
       console.log('ℹ️ Admin account already configured.');
     }
   } catch (error) {
