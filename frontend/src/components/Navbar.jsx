@@ -80,9 +80,7 @@ function Navbar({ accentColor, currentThemeId, colors, onColorChange }) {
           ))}
         </div>
       </nav>
-      {/* close menus when clicking outside or pressing Escape */}
-      <script dangerouslySetInnerHTML={{__html:``}} />
-        <div className="nav-tools">
+      <div className="nav-tools">
         <button
           type="button"
           className={`color-toggle ${isColorOpen ? 'open' : ''}`}
@@ -92,7 +90,7 @@ function Navbar({ accentColor, currentThemeId, colors, onColorChange }) {
         >
           <span className="color-toggle-icon" />
         </button>
-          <div ref={colorRef} className={`color-panel ${isColorOpen ? 'active' : ''}`}>
+        <div ref={colorRef} className={`color-panel ${isColorOpen ? 'active' : ''}`}>
           {colors.map((color) => (
             <button
               key={color.id}
