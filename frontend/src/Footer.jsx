@@ -1,34 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Footer() {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 640);
-
-  // Monitor real-time screen width changes to adapt inline responsive matrices
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 640);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  // Checks if the user's viewport screen is smaller than a mobile threshold width (640px)
+  const isMobile = window.innerWidth <= 640;
 
   return (
-    <footer 
-      className="site-footer" 
-      style={{ 
-        padding: isMobile ? '48px 24px 32px' : '64px 24px 40px',
-        /* Shifts to a unique, distinct layout container background color on mobile screens */
-        backgroundColor: isMobile ? '#0c1125' : 'transparent',
-        borderTop: isMobile ? '1px solid rgba(255, 255, 255, 0.05)' : 'none',
-        width: '100%',
-        boxSizing: 'border-box'
-      }}
-    >
+    <footer className="site-footer" style={{ padding: '64px 24px 40px' }}>
       <div 
         className="footer-grid" 
         style={{ 
           display: 'grid', 
+          // Dynamically sets to a single column on mobile, or 4 columns on desktop layouts
           gridTemplateColumns: isMobile ? '1fr' : '1.2fr repeat(3, 1fr)', 
-          gap: isMobile ? '40px' : '40px', 
+          gap: isMobile ? '36px' : '40px', 
           maxWidth: '1440px', 
           margin: '0 auto', 
           width: '100%' 
@@ -36,38 +21,28 @@ function Footer() {
       >
         
         {/* Column 1: Brand Info, Address, & Social Profiles */}
-        <div className="footer-meta-column" style={{ maxWidth: isMobile ? '100%' : '360px', textAlign: isMobile ? 'center' : 'left' }}>
+        <div className="footer-meta-column" style={{ maxWidth: isMobile ? '100%' : '360px' }}>
           <Link to="/" style={{ display: 'inline-block', marginBottom: '16px' }}>
             <img 
               src="/logo.png" 
               alt="CodeWeb logo" 
-              style={{ height: '76px', width: 'auto', objectFit: 'contain', display: 'block', margin: isMobile ? '0 auto' : '0' }} 
+              style={{ height: '76px', width: 'auto', objectFit: 'contain', display: 'block' }} 
             />
           </Link>
           
-          <p style={{ opacity: 0.85, fontSize: '0.92rem', marginBottom: '12px', lineHeight: '1.6' }}>
+          <p style={{ opacity: 0.85, fontSize: '0.92rem', marginBottom: '12px' }}>
             Empowering the next generation of digital builders with project-driven code pathways and elite technical mentorship workflows.
           </p>
 
           {/* Corporate Address Node */}
-          <div style={{ marginTop: '18px', fontSize: '0.9rem', opacity: 0.8, display: 'grid', gap: '6px', textAlign: isMobile ? 'center' : 'left' }}>
+          <div style={{ marginTop: '18px', fontSize: '0.9rem', opacity: 0.8, display: 'grid', gap: '6px' }}>
             <span style={{ fontWeight: '700', color: 'var(--accent-color)' }}>ACADEMY HQ:</span>
             <span>102 Innovation Drive, Tech Hub Core</span>
             <span>Yaba, Lagos, Nigeria</span>
           </div>
 
-          {/* Social Media Matrix: Forces icons into a centered grid layout of exactly 2 items per row */}
-          <div 
-            className="footer-social-row" 
-            style={{ 
-              display: 'grid', 
-              gridTemplateColumns: isMobile ? 'repeat(2, 42px)' : 'repeat(6, 42px)', 
-              gap: '16px', 
-              marginTop: '24px',
-              justifyContent: 'center', /* Centers the grid alignment block inside the phone container */
-              width: '100%'
-            }}
-          >
+          {/* Social Media Link Array Icons forced side-by-side on mobile rows */}
+          <div className="footer-social-row" style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '12px', marginTop: '16px' }}>
             {/* Facebook */}
             <a href="https://facebook.com" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="Facebook">
               <svg viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z"/></svg>
@@ -80,7 +55,7 @@ function Footer() {
 
             {/* TikTok */}
             <a href="https://tiktok.com" target="_blank" rel="noreferrer" className="social-icon-btn" aria-label="TikTok">
-              <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31.01 2.61.1 3.84.44V4.1c-1.14-.3-2.33-.35-3.47-.16v11.95c-.01 1.74-.75 3.32-2.13 4.22-1.92 1.25-4.52.92-6.04-.77-1.57-1.74-1.49-4.5.21-6.14 1.41-1.35 3.51-1.66(c1) 5.25-.86v-3.9a8.143 8.143 0 0 0-4.83.6c-3.15 1.29-5.18 4.54-4.81 7.97.43 3.99 3.8 7.15 7.82 7.03 3.95-.12 7.19-3.23 7.33-7.2V6.63A8.447 8.447 0 0 0 22 9.42V5.55a4.444 4.444 0 0 1-4.14-3.12l-.04-1.39h-5.29z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12.525.02c1.31.01 2.61.1 3.84.44V4.1c-1.14-.3-2.33-.35-3.47-.16v11.95c-.01 1.74-.75 3.32-2.13 4.22-1.92 1.25-4.52.92-6.04-.77-1.57-1.74-1.49-4.5.21-6.14 1.41-1.35 3.51-1.66 5.25-.86v-3.9a8.143 8.143 0 0 0-4.83.6c-3.15 1.29-5.18 4.54-4.81 7.97.43 3.99 3.8 7.15 7.82 7.03 3.95-.12 7.19-3.23 7.33-7.2V6.63A8.447 8.447 0 0 0 22 9.42V5.55a4.444 4.444 0 0 1-4.14-3.12l-.04-1.39h-5.29z"/></svg>
             </a>
 
             {/* LinkedIn */}
@@ -101,7 +76,7 @@ function Footer() {
         </div>
 
         {/* Column 2: Academic Pathways Links */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', textAlign: isMobile ? 'center' : 'left' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <h4 className="footer-heading" style={{ fontSize: '1rem', marginBottom: '4px', letterSpacing: '0.05em' }}>ACADEMICS</h4>
           <Link to="/courses">Frontend Engineering</Link>
           <Link to="/courses">Backend Systems</Link>
@@ -110,7 +85,7 @@ function Footer() {
         </div>
 
         {/* Column 3: Corporate Portals */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', textAlign: isMobile ? 'center' : 'left' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <h4 className="footer-heading" style={{ fontSize: '1rem', marginBottom: '4px', letterSpacing: '0.05em' }}>RESOURCES</h4>
           <Link to="/opportunities">Career Opportunities</Link>
           <Link to="/about">About Academy</Link>
@@ -119,7 +94,7 @@ function Footer() {
         </div>
 
         {/* Column 4: Contact Connect Help desk */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', textAlign: isMobile ? 'center' : 'left' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           <h4 className="footer-heading" style={{ fontSize: '1rem', marginBottom: '4px', letterSpacing: '0.05em' }}>SUPPORT</h4>
           <p style={{ margin: '0', fontSize: '0.9rem' }}>Questions or Admissions support?</p>
           <a href="mailto:admissions@codeweb.edu" style={{ fontWeight: '700', color: 'var(--accent-color)' }}>admissions@codeweb.edu</a>
@@ -129,7 +104,7 @@ function Footer() {
       </div>
 
       {/* Flat sub-base legal disclaimer banner row */}
-      <div style={{ marginTop: '48px', paddingTop: '20px', borderTop: '1px solid var(--panel-border, rgba(255,255,255,0.08))', display: 'flex', justifyContent: isMobile ? 'center' : 'space-between', flexDirection: isMobile ? 'column' : 'row', alignItems: 'center', flexWrap: 'wrap', gap: '14px', fontSize: '0.85rem', opacity: 0.7, maxWidth: '1440px', margin: '48px auto 0', textAlign: 'center' }}>
+      <div style={{ marginTop: '48px', paddingTop: '20px', borderTop: '1px solid var(--panel-border, rgba(255,255,255,0.08))', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '14px', fontSize: '0.85rem', opacity: 0.7, maxWidth: '1440px', margin: '48px auto 0' }}>
         <span>&copy; {new Date().getFullYear()} CodeWeb Academy Group. All global rights reserved.</span>
         <div style={{ display: 'flex', gap: '20px' }}>
           <a href="#terms">Terms of Training</a>
