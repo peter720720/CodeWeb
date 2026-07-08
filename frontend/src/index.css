@@ -1027,3 +1027,20 @@ button {
   margin: 0 auto !important; /* Forces layout centering inside the button matrix */
   fill: currentColor;
 }
+
+@media (max-width: 640px) {
+  /* ... keeping your header and hero-panel overrides untouched ... */
+
+  .button,
+  .button-outline,
+  .button-secondary,
+  .button-tertiary {
+    width: 100%;
+    justify-content: center;
+    
+    /* ADD THESE THREE LINES TO FIX MOBILE DIMENSIONS */
+    padding: 12px 20px !important;    /* Tighters down mobile padding to fix oval shape */
+    border-radius: 14px !important;   /* Cleaner, modern pill layout for mobile rows */
+    min-height: auto !important;      /* Clears any inherited layout box heights */
+  }
+}
