@@ -1070,4 +1070,40 @@ html, body {
     border-radius: 999px !important;  /* Keeps the precise desktop rounded capsule curve */
     box-sizing: border-box !important;
   }
+
+
+   /* Forces footer layout blocks to stack vertically instead of squeezing sideways */
+  .site-footer .footer-grid {
+    grid-template-columns: 1fr !important; /* Changes to a single clean column stack */
+    gap: 36px !important;                 /* Restores breathing space between text chunks */
+    text-align: left !important;
+  }
+
+  /* Organizes the description text block structure safely */
+  .footer-meta-column {
+    max-width: 100% !important;
+  }
+
+  /* Arranges navigation matrix anchor links inside each column section nicely */
+  .site-footer .footer-grid div {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  /* Keeps link layout blocks clean and prevents overlapping strings */
+  .site-footer .footer-grid a {
+    margin-bottom: 0 !important;
+    font-size: 0.95rem !important;
+  }
+
+  /* Aligns the circle social link button arrays perfectly flat horizontally */
+  .footer-social-row {
+    display: flex !important;
+    flex-direction: row !important; /* Forces icons to stay side-by-side */
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    margin-top: 16px !important;
+  }
+
 }
