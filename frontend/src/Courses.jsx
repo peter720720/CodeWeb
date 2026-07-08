@@ -1,3 +1,5 @@
+import React from 'react';
+
 function Courses({ courses }) {
   return (
     <section className="section-block">
@@ -10,18 +12,53 @@ function Courses({ courses }) {
       </div>
 
       <div className="course-grid">
-        {courses.map((course) => (
-          <article className="course-card" key={course.id}>
-            <div className="course-image" style={{ backgroundImage: `url(${course.image})` }} />
-            <div className="course-info">
-              <p className="course-tag">{course.category}</p>
-              <h3>{course.title}</h3>
-              <p>{course.description}</p>
-              <p className="course-detail-text">{course.details}</p>
-              <a className="learn-more" href="/courses">Learn more</a>
-            </div>
-          </article>
-        ))}
+        {courses.map((course) => {
+          // Identify the targets for custom images
+          const isFrontend = course.id === 'frontend';
+          const isBackend = course.id === 'backend';
+          const isFullstack = course.id === 'fullstack';
+          const isCyber = course.id === 'cyber';
+          const isData = course.id === 'data';
+          const isGraphics = course.id === 'graphics';
+          const isProduction = course.id === 'production';
+          const isProduct = course.id === 'product';
+          
+          // Determine the correct background image path
+          let cardImage = course.image;
+          if (isFrontend) {
+            cardImage = "/ChatGPT Image Jul 8, 2026, 02_31_10 AM.png";
+          } else if (isBackend) {
+            cardImage = "/ChatGPT Image Jul 8, 2026, 02_24_17 AM.png";
+          } else if (isFullstack) {
+            cardImage = "/full-stack.png";
+          } else if (isCyber) {
+            cardImage = "/cyber.png";
+          } else if (isData) {
+            cardImage = "/data-analytics.png";
+          } else if (isGraphics) {
+            cardImage = "/graphic-design.png";
+          } else if (isProduction) {
+            cardImage = "/productin design.png"; // Matches file spelling exactly
+          } else if (isProduct) {
+            cardImage = "/product-management.png";
+          }
+          
+          return (
+            <article className="course-card" key={course.id}>
+              <div 
+                className="course-image" 
+                style={{ backgroundImage: `url("${cardImage}")` }} 
+              />
+              <div className="course-info">
+                <p className="course-tag">{course.category}</p>
+                <h3>{course.title}</h3>
+                <p>{course.description}</p>
+                <p className="course-detail-text">{course.details}</p>
+                <a className="learn-more" href="/courses">Learn more</a>
+              </div>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

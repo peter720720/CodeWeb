@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
 let Resend;
 try {
   // `resend` may not be installed in some environments — load conditionally
@@ -14,6 +15,11 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
+
+// Modular routes & models
+import authRoutes from './routes/authRoutes.js';
+import coursesRoutes from './routes/coursesRoutes.js';
+import User from './models/User.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -53,20 +59,9 @@ const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 app.use(cors({ origin: FRONTEND_URL, credentials: true }));
 app.use(express.json());
 
-// ==========================================
-// 🍃 MONGOOSE SCHEMAS & MODELS
-// ==========================================
-
-const userSchema = new mongoose.Schema({
-  fullName: { type: String, required: true },
-  email: { type: String, required: true, unique: true, lowercase: true },
-  password: { type: String, required: true },
-  role: { type: String, enum: ['student', 'admin'], default: 'student' },
-  selectedCourse: { type: String, default: 'none' }, 
-  createdAt: { type: Date, default: Date.now }
-});
-
-const User = mongoose.model('User', userSchema);
+// Mount API routes
+app.use('/api/auth', authRoutes);
+app.use('/api/courses', coursesRoutes);
 
 // Static CodeWeb Course Catalog
 const COURSES = [
@@ -123,13 +118,6 @@ async function seedAdminUser() {
       
       console.log('👑 Admin user successfully seeded into database!');
     } else {
-
-// Mount API routes
-import authRoutes from './routes/authRoutes.js';
-import coursesRoutes from './routes/coursesRoutes.js';
-
-app.use('/api/auth', authRoutes);
-app.use('/api/courses', coursesRoutes);
       console.log('ℹ️ Admin account already configured.');
     }
   } catch (error) {
@@ -142,131 +130,7 @@ app.use('/api/courses', coursesRoutes);
 // ==========================================
 
 // 1. Fetch All Available Courses
-app.get('/api/courses', (req, res) => {
-  res.status(200).json(COURSES);
-});
-
-// 2. Student Enrollment/Registration with Smart Welcome Emails
-app.post('/api/auth/register', async (req, res) => {
-  try {
-    const { fullName, email, password, selectedCourse } = req.body;
-
-    if (!fullName || !email || !password || !selectedCourse) {
-      return res.status(400).json({ message: 'All fields are required.' });
-    }
-
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      return res.status(400).json({ message: 'This email is already registered.' });
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    await User.create({
-      fullName,
-      email,
-      password: hashedPassword,
-      role: 'student',
-      selectedCourse
-    });
-
-    const courseObj = COURSES.find(c => c.id === selectedCourse);
-    const courseTitle = courseObj ? courseObj.title : selectedCourse;
-
-    const emailHTML = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #eee; border-radius: 10px;">
-        <h2 style="color: #2563eb; text-align: center;">Welcome to CodeWeb Academy! 🎉</h2>
-        <p>Hello <strong>${fullName}</strong>,</p>
-        <p>Your enrollment in the <strong>${courseTitle}</strong> program was successful!</p>
-        <p>We are thrilled to accompany you on your pathway toward software building mastery.</p>
-        <br/>
-        <p style="border-top: 1px solid #eee; padding-top: 15px; font-size: 12px; color: #777;">
-          Best Regards,<br/>
-          <strong>CodeWeb Academy Team</strong>
-        </p>
-      </div>
-    `;
-
-    let emailSent = false;
-
-    // Strategy A: Dispatched via Primary Engine (Resend)
-    if (RESEND_API_KEY && RESEND_API_KEY !== 'no_key') {
-      try {
-        await resend.emails.send({
-          from: `${EMAIL_FROM_NAME} <onboarding@resend.dev>`,
-          to: email,
-          subject: 'Welcome to CodeWeb Academy! 🎉',
-          html: emailHTML
-        });
-        console.log(`📧 Resend engine dispatched welcome email to: ${email}`);
-        emailSent = true;
-      } catch (err) {
-        console.warn('⚠️ Resend primary email engine skipped or failed, trying backup engine...');
-      }
-    }
-
-    // Strategy B: Dispatched via Fallback Engine (Nodemailer Gmail SMTP)
-    if (!emailSent && NODEMAILER_USERNAME && NODEMAILER_PASSWORD) {
-      try {
-        await transporter.sendMail({
-          from: `"${EMAIL_FROM_NAME}" <${NODEMAILER_USERNAME}>`,
-          to: email,
-          subject: 'Welcome to CodeWeb Academy! 🎉',
-          html: emailHTML
-        });
-        console.log(`📧 Nodemailer backup engine dispatched welcome email to: ${email}`);
-      } catch (error) {
-        console.error('❌ Both registration email delivery systems failed:', error.message);
-      }
-    }
-
-    res.status(201).json({ message: 'Enrollment successful! You can now sign in.' });
-  } catch (error) {
-    res.status(500).json({ message: 'Internal server registration error.' });
-  }
-});
-
-// 3. User & Admin Login Authentication
-app.post('/api/auth/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({ message: 'Please provide email and password.' });
-    }
-
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ message: 'Invalid credentials.' });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Invalid credentials.' });
-    }
-
-    const token = jwt.sign(
-      { id: user._id, email: user.email, role: user.role },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    );
-
-    res.status(200).json({
-      message: 'Sign-in successful!',
-      token,
-      user: {
-        id: user._id,
-        fullName: user.fullName,
-        email: user.email,
-        role: user.role,
-        selectedCourse: user.selectedCourse
-      }
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'Internal server login error.' });
-  }
-});
+// API endpoints are provided by modular routes mounted earlier.
 
   // Health check endpoint for deployment verification
   app.get('/health', (req, res) => {

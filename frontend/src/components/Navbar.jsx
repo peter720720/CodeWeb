@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
-function Navbar({ accentColor, currentThemeId, colors, onColorChange }) {
+// Added theme prop to the incoming parameter list
+function Navbar({ accentColor, currentThemeId, colors, onColorChange, theme }) {
   const [isColorOpen, setIsColorOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -35,7 +36,6 @@ function Navbar({ accentColor, currentThemeId, colors, onColorChange }) {
     document.addEventListener('touchstart', handleOutside);
     document.addEventListener('keydown', handleEsc);
 
-    // lock body scroll when menu open
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -50,11 +50,32 @@ function Navbar({ accentColor, currentThemeId, colors, onColorChange }) {
     };
   }, [isMenuOpen, isColorOpen]);
 
+  // Clean, fully isolated logic check using explicit state tracking props
+  const getLogoFilter = () => {
+    if (theme === 'white') {
+      return 'brightness(0)'; // Stays perfectly black on light background layouts
+    }
+    return 'brightness(0) invert(1)'; // Stays perfectly white on dark background layouts
+  };
+
   return (
     <header className="site-header">
       <Link to="/" className="brand brand-link">
-        <img src="/logo.png" alt="CodeWeb logo" className="logo-mark" />
-        <span className="brand-title">CodeWeb</span>
+        <img 
+          src="/logo.png" 
+          alt="CodeWeb logo" 
+          style={{ 
+            height: '110px', 
+            width: '110px', 
+            objectFit: 'contain',
+            display: 'block',
+            margin: '-20px 0',
+            maxWidth: 'none', 
+            maxHeight: 'none',
+            filter: getLogoFilter(),
+            transition: 'filter 0.25s ease'
+          }} 
+        />
       </Link>
       <button
         className={`hamburger ${isMenuOpen ? 'open' : ''}`}

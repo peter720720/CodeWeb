@@ -1,7 +1,8 @@
 import { useState } from 'react';
 
 function Enroll({ courses }) {
-  const [form, setForm] = useState({ fullName: '', email: '', course: courses[0]?.id || '' });
+  // Default the initial state value to 'none'
+  const [form, setForm] = useState({ fullName: '', email: '', course: 'none' });
   const [status, setStatus] = useState(null);
 
   const handleChange = (event) => {
@@ -18,7 +19,11 @@ function Enroll({ courses }) {
       const response = await fetch(`${API_BASE}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...form, selectedCourse: form.course })
+        body: JSON.stringify({
+          fullName: form.fullName,
+          email: form.email,
+          courseId: form.course // Sends 'none' or the selected course ID to your backend
+        })
       });
 
       const result = await response.json();
@@ -37,29 +42,54 @@ function Enroll({ courses }) {
       </div>
 
       <form className="enroll-form" onSubmit={handleSubmit}>
-        <label>
-          Full name
-          <input name="fullName" value={form.fullName} onChange={handleChange} required />
+        <label style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
+          <span style={{ fontWeight: '600' }}>Full Name</span>
+          <input 
+            type="text"
+            name="fullName" 
+            placeholder="Type your first and last name here"
+            value={form.fullName} 
+            onChange={handleChange} 
+            required 
+            style={{ padding: '14px', borderRadius: '12px', border: '1px solid var(--input-border)' }}
+          />
         </label>
 
-        <label>
-          Email address
-          <input type="email" name="email" value={form.email} onChange={handleChange} required />
+        <label style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px' }}>
+          <span style={{ fontWeight: '600' }}>Email Address</span>
+          <input 
+            type="email" 
+            name="email" 
+            placeholder="Type your email address here (e.g., name@gmail.com)"
+            value={form.email} 
+            onChange={handleChange} 
+            required 
+            style={{ padding: '14px', borderRadius: '12px', border: '1px solid var(--input-border)' }}
+          />
         </label>
 
-        <label>
-          Select course
-          <select name="course" value={form.course} onChange={handleChange}>
-            {courses.map((course) => (
+        <label style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
+          <span style={{ fontWeight: '600' }}>Select Course</span>
+          <select 
+            name="course" 
+            value={form.course} 
+            onChange={handleChange}
+            style={{ padding: '14px', borderRadius: '12px', border: '1px solid var(--input-border)', background: 'var(--input-bg)' }}
+          >
+            {/* Added selectable 'None' option back to the top of the dropdown */}
+            <option value="none">None</option>
+            {courses && courses.map((course) => (
               <option key={course.id} value={course.id}>{course.title}</option>
             ))}
           </select>
         </label>
 
-        <button className="button button-primary" type="submit">Submit Enrollment</button>
+        <button className="button button-primary" type="submit" style={{ width: '100%', padding: '14px' }}>
+          Submit Enrollment
+        </button>
 
         {status && (
-          <div className={`form-status ${status === 'success' ? 'success' : 'error'}`}>
+          <div className={`form-status ${status === 'success' ? 'success' : 'error'}`} style={{ marginTop: '16px', padding: '12px', borderRadius: '8px' }}>
             {status === 'submitting' ? 'Sending enrollment...' : status}
           </div>
         )}
