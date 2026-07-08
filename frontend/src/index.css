@@ -910,80 +910,54 @@ html, body {
   }
 }
 
-/* 1. FORCE ELEGANT BREATHING ROOM PADDING ON MOBILE HEADERS */
+ /* Forces the header layout wrapper to maintain symmetric margins on mobile viewports */
   .site-header {
-    padding: 16px 20px !important; /* Adds clear left and right spacing away from the screen margins */
+    padding: 16px 24px !important; /* Locks explicit 24px breathing space at both left and right sides */
     display: flex !important;
+    flex-direction: row !important;
     justify-content: space-between !important;
     align-items: center !important;
     box-sizing: border-box !important;
     width: 100% !important;
   }
 
-  .nav-links {
-    display: none;
-  }
-  
-  /* 2. REFIX OVERLAY BOUNDS SO ALL NAV LINKS UNFOLD & REVEAL */
-  .nav-links.open {
-    display: flex !important;
-    position: fixed !important;
-    /* Anchors to every absolute corner edge of the screen */
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    background: #020617 !important; /* Robust rich dark tone matching your core canvas */
-    padding: 32px 24px !important;
-    z-index: 99999 !important;      /* Forces it completely on top of all secondary section containers */
-    overflow-y: auto !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    align-items: center !important;
-    box-sizing: border-box !important;
-  }
-
-  /* 3. CENTER & BALANCE NAV PANEL CONTAINER ROW TRACKS */
-  .nav-links.open .nav-panel {
-    width: 100% !important;
-    max-width: 480px !important;
-    margin: 0 auto !important;
-    background: transparent !important;
-    border: none !important;
+  /* Structural wrapper containing the hamburger toggle icon box and the logo link wrapper */
+  .brand.brand-link {
+    margin: 0 !important;
     padding: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 14px !important;            /* Clean spatial rows separating navigation text elements */
-    align-items: stretch !important;
-    max-height: none !important;
-    overflow: visible !important;
   }
 
-  /* 4. SHARP CHANNELS FORMATTING FOR CHIPS MATRIX LIST */
-  .nav-links.open .nav-link {
-    display: flex !important;
+  /* ALIGNS NAVIGATION TOOLS BUTTONS SYMMETRICALLY IN A RIGHT-SIDE COLUMN ROW */
+  .nav-tools {
+    display: inline-flex !important;
+    flex-direction: row-reverse !important; /* Places the hamburger bar first, then the theme spinning wheel */
     align-items: center !important;
-    justify-content: center !important;
-    padding: 14px 20px !important;
-    border-radius: 999px !important; /* Crisp fluid capsule presentation curve */
-    text-align: center !important;
-    font-size: 1.1rem !important;
-    font-weight: 600 !important;
-    color: #f7f8fb !important;
-    background: rgba(255, 255, 255, 0.04) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
+    gap: 16px !important;                  /* Adds clear breathing room between both interactive actions */
+    margin: 0 !important;
+    padding: 0 !important;
   }
 
-  /* Active highlight selection status state indicator flags */
-  .nav-links.open .nav-link.active,
-  .nav-links.open .nav-link:hover {
-    background: var(--accent-color) !important;
-    color: #ffffff !important;
-    border-color: var(--accent-color) !important;
+  /* Ensures your custom interactive mobile hamburger matches dimensions cleanly */
+  .hamburger {
+    display: inline-flex !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* STABILIZES THE SHAPE FOOTPRINT OF YOUR BRAND COLOR SELECTOR SPINNER DROPDOWN TABS */
+  .color-toggle {
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+    display: grid !important;
+    place-items: center !important;
+  }
+
+  /* Adjusts the dropdown panel selection circles grid box coordinates so it stays on screen width */
+  .color-panel {
+    top: 56px !important;
+    right: 0 !important;
+    left: auto !important;
+    z-index: 9999 !important;
   }
 
 }
