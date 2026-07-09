@@ -910,41 +910,39 @@ html, body {
   }
 }
 
- /* Forces the header layout wrapper to maintain symmetric margins on mobile viewports */
-  .site-header {
-    padding: 16px 24px !important; /* Locks explicit 24px breathing space at both left and right sides */
+ .site-header {
+    padding: 16px 24px !important; /* Retains symmetric left/right breathing spaces */
     display: flex !important;
     flex-direction: row !important;
     justify-content: space-between !important;
-    align-items: center !important;
+    align-items: center !important; /* Keeps the right action group perfectly level with your logo height */
     box-sizing: border-box !important;
     width: 100% !important;
   }
 
-  /* Structural wrapper containing the hamburger toggle icon box and the logo link wrapper */
   .brand.brand-link {
     margin: 0 !important;
     padding: 0 !important;
   }
 
-  /* ALIGNS NAVIGATION TOOLS BUTTONS SYMMETRICALLY IN A RIGHT-SIDE COLUMN ROW */
+  /* 2. FORCES THE SPINNER TO LAYER DIRECTLY UNDERNEATH THE HAMBURGER LINES CONTROLS */
   .nav-tools {
-    display: inline-flex !important;
-    flex-direction: row-reverse !important; /* Places the hamburger bar first, then the theme spinning wheel */
-    align-items: center !important;
-    gap: 16px !important;                  /* Adds clear breathing room between both interactive actions */
+    display: flex !important;
+    flex-direction: column !important; /* Stack columns vertically instead of a horizontal row row */
+    align-items: center !important;     /* Centers both components perfectly across the alignment block */
+    gap: 12px !important;              /* Adds clear, tight vertical space between them */
     margin: 0 !important;
     padding: 0 !important;
   }
 
-  /* Ensures your custom interactive mobile hamburger matches dimensions cleanly */
+  /* Stabilizes the size behavior of your menu bar block */
   .hamburger {
     display: inline-flex !important;
     margin: 0 !important;
     flex-shrink: 0 !important;
   }
 
-  /* STABILIZES THE SHAPE FOOTPRINT OF YOUR BRAND COLOR SELECTOR SPINNER DROPDOWN TABS */
+  /* Ensures the color wheel keeps its precise square dimensions when stacked */
   .color-toggle {
     margin: 0 !important;
     flex-shrink: 0 !important;
@@ -952,14 +950,13 @@ html, body {
     place-items: center !important;
   }
 
-  /* Adjusts the dropdown panel selection circles grid box coordinates so it stays on screen width */
+  /* Adjusts the dropdown swatch circles drawer coordinate paths relative to the stacked setup */
   .color-panel {
-    top: 56px !important;
+    top: 106px !important; /* Pushed further down so it clears your stacked icons cleanly */
     right: 0 !important;
     left: auto !important;
     z-index: 9999 !important;
   }
-
 }
 
 /* Improve footer spacing on small screens */
