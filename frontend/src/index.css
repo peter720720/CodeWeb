@@ -864,51 +864,60 @@ html, body {
     display: none;
   }
   
-  /* Forces the menu overlay to reveal itself properly when active */
+  /* 1. FORCES THE FULL MENU SCREEN OVERLAY TO FILL THE SCREEN RADIUS COMPLETELY */
   .nav-links.open {
-    display: flex !important; /* Changed from display: block to flex for proper layout grid rendering */
-    position: fixed;
-    inset: 0;
-    background: rgba(2, 6, 23, 0.98) !important; /* Replaced semi-transparent tint with your clear dark canvas tone */
-    padding: 24px;
-    z-index: 100;
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-    overflow-y: auto;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    display: flex !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;       /* Forces full viewport height coverage on mobile */
+    min-height: 100vh !important;   /* Prevents the panel layout from collapsing */
+    background: #020617 !important; /* Robust rich dark background tone matching your theme */
+    padding: 80px 24px 40px !important; /* Added 80px top padding so links clear your sticky logo header row */
+    z-index: 999999 !important;     /* Renders on top of absolutely all secondary container layers */
+    overflow-y: auto !important;    /* Enables clean vertical touch scrolling for longer menu paths */
+    flex-direction: column !important;
+    justify-content: flex-start !important; /* Starts content layout from top down for natural scroll physics */
+    align-items: center !important;
+    box-sizing: border-box !important;
   }
 
-  /* Stabilizes the interior nav column link card box */
+  /* 2. RE-STABILIZES YOUR INTERIOR PILL BUTTON LINKS WRAPPER ROW STACK */
   .nav-links.open .nav-panel {
-    width: min(100%, 560px);
-    margin: 0 auto;
-    background: transparent !important; /* Clears gray transparency boxes */
-    border: none !important;            /* Removes double border lines */
-    padding: 0;
+    width: 100% !important;
+    max-width: 440px !important;
+    margin: 0 auto !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 16px !important;              /* Adds balanced vertical space between link text blocks */
-    align-items: stretch;
+    gap: 16px !important;            /* Clean vertical breathing gaps between active links */
+    align-items: stretch !important;
     max-height: none !important;
     overflow: visible !important;
   }
 
-  /* Ensures each active link spreads full-width and remains highly visible */
+  /* 3. ENSURES INDIVIDUAL CAPSLUE SHAPE ACTION NAVIGATION ROW ITEMS WORK PERFECTLY */
   .nav-links.open .nav-link {
-    display: block !important;
-    padding: 16px 24px !important;
-    border-radius: 999px !important; /* Matches your beautiful pill button design language */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 14px 24px !important;    /* Keeps touch bounds perfectly uniform and finger friendly */
+    height: 52px !important;          /* Explicit fixed height limit locks uniform capsule row widths */
+    border-radius: 999px !important;  /* Retains your beautiful fluid pill shape design accent */
     text-align: center !important;
-    font-size: 1.15rem !important;   /* Slightly boosts sizing for quick thumb tap interactions */
+    font-size: 1.15rem !important;
     font-weight: 600 !important;
-    color: var(--text-color) !important;
-    background: var(--button-secondary-bg, rgba(255, 255, 255, 0.04)) !important;
-    border: 1px solid var(--button-secondary-border, rgba(255, 255, 255, 0.1)) !important;
+    color: #f7f8fb !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
   }
 
-  /* Highlight state when a page is actively being viewed */
+  /* Active highlight selection status state indicator flags */
   .nav-links.open .nav-link.active,
   .nav-links.open .nav-link:hover {
     background: var(--accent-color) !important;
