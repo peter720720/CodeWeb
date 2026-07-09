@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
-// Added theme prop to the incoming parameter list
 function Navbar({ accentColor, currentThemeId, colors, onColorChange, theme }) {
   const [isColorOpen, setIsColorOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,12 +49,11 @@ function Navbar({ accentColor, currentThemeId, colors, onColorChange, theme }) {
     };
   }, [isMenuOpen, isColorOpen]);
 
-  // Clean, fully isolated logic check using explicit state tracking props
   const getLogoFilter = () => {
     if (theme === 'white') {
-      return 'brightness(0)'; // Stays perfectly black on light background layouts
+      return 'brightness(0)'; 
     }
-    return 'brightness(0) invert(1)'; // Stays perfectly white on dark background layouts
+    return 'brightness(0) invert(1)'; 
   };
 
   return (
@@ -77,15 +75,6 @@ function Navbar({ accentColor, currentThemeId, colors, onColorChange, theme }) {
           }} 
         />
       </Link>
-      <button
-        className={`hamburger ${isMenuOpen ? 'open' : ''}`}
-        aria-label="Toggle navigation menu"
-        onClick={() => setIsMenuOpen((p) => !p)}
-      >
-        <span />
-        <span />
-        <span />
-      </button>
 
       <nav className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
         <div className="nav-panel" ref={menuRef}>
@@ -101,7 +90,21 @@ function Navbar({ accentColor, currentThemeId, colors, onColorChange, theme }) {
           ))}
         </div>
       </nav>
+
+      {/* Unified right-side container tools column */}
       <div className="nav-tools">
+        {/* The Hamburger Menu button sits cleanly on top */}
+        <button
+          className={`hamburger ${isMenuOpen ? 'open' : ''}`}
+          aria-label="Toggle navigation menu"
+          onClick={() => setIsMenuOpen((p) => !p)}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        {/* The Theme Spinning wheel is stacked directly underneath */}
         <button
           type="button"
           className={`color-toggle ${isColorOpen ? 'open' : ''}`}
@@ -111,6 +114,7 @@ function Navbar({ accentColor, currentThemeId, colors, onColorChange, theme }) {
         >
           <span className="color-toggle-icon" />
         </button>
+
         <div ref={colorRef} className={`color-panel ${isColorOpen ? 'active' : ''}`}>
           {colors.map((color) => (
             <button
