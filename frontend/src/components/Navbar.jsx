@@ -16,11 +16,16 @@ function Navbar({ accentColor, currentThemeId, colors, onColorChange, theme }) {
 
   useEffect(() => {
     function handleOutside(e) {
-      if (isMenuOpen && menuRef.current && !menuRef.current.contains(e.target)) {
-        setIsMenuOpen(false);
-      }
-      if (isColorOpen && colorRef.current && !colorRef.current.contains(e.target)) {
-        setIsColorOpen(false);
+      // 1. MODIFIED VALIDATION: Disables outside-clicking closure on mobile viewports
+      const isMobileView = window.innerWidth <= 960;
+      
+      if (!isMobileView) {
+        if (isMenuOpen && menuRef.current && !menuRef.current.contains(e.target)) {
+          setIsMenuOpen(false);
+        }
+        if (isColorOpen && colorRef.current && !colorRef.current.contains(e.target)) {
+          setIsColorOpen(false);
+        }
       }
     }
 
@@ -48,6 +53,7 @@ function Navbar({ accentColor, currentThemeId, colors, onColorChange, theme }) {
       document.body.style.overflow = '';
     };
   }, [isMenuOpen, isColorOpen]);
+
 
   const getLogoFilter = () => {
     if (theme === 'white') {

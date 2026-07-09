@@ -115,11 +115,33 @@ html, body {
 }
 
 .nav-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-  align-items: center;
-}
+    display: flex !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    background: #020617 !important;
+    padding: 140px 24px 40px !important;
+    z-index: 999999 !important;
+    overflow-y: auto !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+    
+    /* ANIMATION TRANSLATION PARAMS: Slides the panel out of view to the absolute left */
+    transform: translateX(-100%) !important;
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important; /* Sweet, smooth spring-like slide physics */
+    pointer-events: none !important;
+  }
+  
+  /* 2. SLIDES THE MENU SCREEN IN FROM THE LEFT VIEWPORT BOUNDARY WHEN OPENED */
+  .nav-links.open {
+    transform: translateX(0) !important; /* Snaps smoothly back to full position */
+    pointer-events: auto !important;     /* Enables button clicks once slide finishes */
+  }
 
 .nav-link {
   color: var(--header-fg, var(--text-color));
