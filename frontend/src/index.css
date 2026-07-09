@@ -147,20 +147,19 @@ html, body {
   color: #ffffff !important;
 }
 
-.nav-tools {
+ .nav-tools {
     display: flex !important;
     flex-direction: column !important;
-    align-items: flex-end !important; /* Aligns both items tightly flush to the right edge */
+    align-items: flex-end !important; /* Keeps items flush to the right edge */
     
-    /* CRITICAL TRANSITION OFFSET: Moves the grouping layout block container upward */
-    margin-top: -14px !important;    
+    /* CRITICAL ALIGNMENT: Pushes the container down to line up straight with the logo */
+    padding-top: 14px !important;    /* Adjust this number slightly up or down if needed */
+    margin: 0 !important;             /* Clears out any old negative margin pulls */
     
-    /* GIVES CLEAR VERTICAL breathing room to push the spinning circle downward */
+    /* Adds clean vertical space to keep the spinning circle separated underneath */
     gap: 16px !important;            
-    padding: 0 !important;
     flex: 0 0 auto !important;
   }
-
 
 .color-toggle {
   width: 44px;
