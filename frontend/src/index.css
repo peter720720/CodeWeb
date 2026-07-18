@@ -921,8 +921,11 @@ html, body {
 }
 
 
+/* ==========================================================================
+   MOBILE BOTTOM NAVIGATION & TOP FIXED HEADER LAYOUT
+   ========================================================================== */
 @media (max-width: 960px) {
-  /* 1. Header wrapper stays at the top */
+  /* 1. Header (Logo & Theme Button Container) stays relative at the top */
   .site-header {
     position: relative !important;
     top: auto !important;
@@ -939,7 +942,7 @@ html, body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
   }
 
-  /* 2. Forces theme toggle panel to stay at the top */
+  /* 2. Forces theme toggle panel to stay at the top right next to the logo */
   .nav-tools {
     display: flex !important;
     flex-direction: row !important;
@@ -950,13 +953,14 @@ html, body {
     z-index: 1001 !important;
   }
 
-  /* 3. Hides the mobile hamburger lines icon */
+  /* 3. Completely hides the mobile hamburger menu icon lines */
   .hamburger {
     display: none !important;
   }
 
-  /* 4. FIXED: Target .nav-links directly without relying on the .open class */
-  .nav-links {
+  /* 4. Fixes the navigation container firmly to the viewport bottom */
+  .nav-links,
+  .nav-links.open {
     display: flex !important;
     position: fixed !important;
     top: auto !important;
@@ -977,24 +981,31 @@ html, body {
     transform: none !important;
     visibility: visible !important;
     opacity: 1 !important;
+    box-sizing: border-box !important;
   }
 
   /* 5. Forces layout inside the navigation panel to display horizontally */
-  .nav-links .nav-panel {
+  .nav-links .nav-panel,
+  .nav-links.open .nav-panel {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: wrap !important;
     justify-content: center !important;
+    align-items: center !important;
     width: 100% !important;
     gap: 6px !important;
     padding: 0 !important;
     margin: 0 !important;
     background: transparent !important;
+    border: none !important;
+    max-height: none !important;
+    overflow: visible !important;
   }
 
-  /* 6. Formats items into a nice grid format */
-  .nav-links .nav-link {
-    flex: 1 1 calc(33.33% - 6px) !important;
+  /* 6. Formats navigation tags into a clean mobile-friendly button grid */
+  .nav-links .nav-link,
+  .nav-links.open .nav-link {
+    flex: 1 1 calc(33.33% - 6px) !important; /* 3 clean buttons per row line */
     min-width: 0 !important;
     margin: 0 !important;
     padding: 10px 8px !important;
@@ -1007,13 +1018,34 @@ html, body {
     white-space: nowrap !important;
   }
 
-  /* 7. Drop the long registration button to protect workspace dimensions */
+  /* 7. Drops the lengthy 'Enroll Now' button to protect screen dimensions */
   .nav-link.enroll-button {
     display: none !important;
   }
 
-  /* 8. Cleans view containers below navigation elements */
-  .page-content {
+  /* 8. Fixes absolute positioning layer behaviors for theme swatches popover panel */
+  .color-panel {
+    position: absolute !important;
+    top: 60px !important;
+    right: 20px !important;
+    bottom: auto !important;
+    left: auto !important;
+    background: rgba(15, 23, 42, 0.98) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 8px !important;
+    border-radius: 8px !important;
+    display: none;
+  }
+
+  .color-panel.active {
+    display: flex !important;
+    gap: 8px !important;
+  }
+
+  /* 9. Adjust page layout content padding to clear fixed components */
+  .page-content,
+  main.page-content,
+  div[class*="page-content"] {
     padding-top: 16px !important;
     padding-bottom: 120px !important;
   }
