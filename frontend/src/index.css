@@ -909,39 +909,82 @@ html, body {
 
 @media (max-width: 960px) {
   .hamburger {
-    display: inline-grid;
+    display: none !important;
   }
 
   .nav-links {
-    display: none;
+    display: flex !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 10px 10px 12px !important;
+    background: rgba(2, 6, 23, 0.96) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.28) !important;
+    z-index: 999 !important;
+  }
+
+  .nav-links .nav-panel {
+    display: flex !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+    gap: 6px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+  }
+
+  .nav-links .nav-link {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 10px 8px !important;
+    font-size: 0.78rem !important;
+    border-radius: 16px !important;
+    text-align: center !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .nav-link.enroll-button {
+    display: none !important;
   }
 
   /* full-screen mobile menu overlay */
   .nav-links.open {
-    display: block;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-    padding: 0;
-    z-index: 100;
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
-    overflow-y: auto;
+    display: flex !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 10px 10px 12px !important;
+    background: rgba(2, 6, 23, 0.96) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.28) !important;
+    z-index: 999 !important;
   }
 
   .nav-links.open .nav-panel {
-    width: min(100%, 560px);
-    margin: 84px auto 24px;
-    background: var(--panel-bg, rgba(255, 255, 255, 0.02));
-    border: 1px solid var(--panel-border, rgba(255, 255, 255, 0.06));
-    border-radius: 18px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: stretch;
-    max-height: calc(100vh - 130px);
-    overflow: hidden;
+    width: 100% !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 6px !important;
+    align-items: center !important;
+    max-height: none !important;
+    overflow: visible !important;
   }
 
   .nav-links.open .nav-panel::before {
@@ -952,17 +995,20 @@ html, body {
   }
 
   .nav-links.open .nav-link {
-    display: block;
-    padding: 14px 18px;
-    border-radius: 12px;
-    text-align: center;
-    font-size: 1rem;
-    background: transparent;
-    white-space: nowrap;
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 10px 8px !important;
+    font-size: 0.78rem !important;
+    border-radius: 16px !important;
+    text-align: center !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    width: auto !important;
   }
 
   .nav-links.open .nav-panel {
-    overflow-y: auto;
+    overflow: visible !important;
   }
 
 
@@ -995,45 +1041,34 @@ html, body {
   /* 2. RE-STABILIZES YOUR INTERIOR PILL BUTTON LINKS WRAPPER ROW STACK */
   .nav-links.open .nav-panel {
     width: 100% !important;
-    max-width: 440px !important;
-    margin: 0 auto !important;
+    margin: 0 !important;
     background: transparent !important;
     border: none !important;
     padding: 0 !important;
     display: flex !important;
-    flex-direction: column !important;
-    gap: 16px !important;            /* Clean vertical breathing gaps between active links */
-    align-items: stretch !important;
+    flex-direction: row !important;
+    gap: 6px !important;
+    align-items: center !important;
     max-height: none !important;
     overflow: visible !important;
   }
 
-  /* 3. ENSURES INDIVIDUAL CAPSLUE SHAPE ACTION NAVIGATION ROW ITEMS WORK PERFECTLY */
   .nav-links.open .nav-link {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 14px 24px !important;    /* Keeps touch bounds perfectly uniform and finger friendly */
-    height: 52px !important;          /* Explicit fixed height limit locks uniform capsule row widths */
-    border-radius: 999px !important;  /* Retains your beautiful fluid pill shape design accent */
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 10px 8px !important;
+    font-size: 0.78rem !important;
+    border-radius: 16px !important;
     text-align: center !important;
-    font-size: 1.15rem !important;
-    font-weight: 600 !important;
-    color: #f7f8fb !important;
-    background: rgba(255, 255, 255, 0.04) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
+    width: auto !important;
   }
 
-  /* Active highlight selection status state indicator flags */
-  .nav-links.open .nav-link.active,
-  .nav-links.open .nav-link:hover {
-    background: var(--accent-color) !important;
-    color: #ffffff !important;
-    border-color: var(--accent-color) !important;
+  .nav-links.open .nav-panel {
+    overflow: visible !important;
   }
-}
 
   /* 1. FORCE LOGO TO LEFT AND ALL CONTROL TOOL BUTTONS TO RIGHT */
   .site-header {
